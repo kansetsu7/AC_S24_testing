@@ -13,7 +13,7 @@ class Cart
     return @order_items.first * PRICE if @order_items.size == 1  
 
     total = 0
-    discounts = [0.95, 0.9, 0.85]
+    discounts = [0.95, 0.9, 0.85, 0.8]
 
     loop do
       num_of_vol = @order_items.size

@@ -9,11 +9,15 @@ class Cart
   def calculate
     total = 0
 
-    @order_items.each do |item|
-      total += item * PRICE
-    end
+    @order_items.delete_if { |quantity| quantity == 0 }
+    
+    return @order_items.first * PRICE if @order_items.size == 1  
 
-    total
+    if @order_items[0] > @order_items[1]
+      return (@order_items[1] * 2 * 0.95 + (@order_items[0] - @order_items[1])) * PRICE
+    else
+      return (@order_items[0] * 2 * 0.95 + (@order_items[1] - @order_items[0])) * PRICE
+    end
   end
 
 end

@@ -65,4 +65,33 @@ describe Cart do
 
   end
 
+  context "(4) 15% off" do
+
+    it '第一集買 1 本、第二集買 1 本、第三集買 1 本、第四集買 1 本' do
+      @cart.add({ "1st": 1, "2nd": 1, "3rd": 1, "4th": 1, "5th": 0 })
+      expect(@cart.calculate).to eq(340)  # 400*0.85
+    end
+
+    it '第一集買 2 本、第二集買 2 本、第三集買 2 本、第四集買 2 本' do
+      @cart.add({ "1st": 2, "2nd": 2, "3rd": 2, "4th": 2, "5th": 0 })
+      expect(@cart.calculate).to eq(680)  # 800*0.85      
+    end
+
+    it '第一集買 1 本、第二集買 2 本、第三集買 1 本、第四集買 1 本' do
+      @cart.add({ "1st": 1, "2nd": 2, "3rd": 1, "4th": 1, "5th": 0 })
+      expect(@cart.calculate).to eq(440)  # 800*0.85+100 
+    end
+
+    it '第一集買 2 本、第二集買 3 本、第三集買 6 本、第四集買 4 本' do
+      @cart.add({ "1st": 2, "2nd": 3, "3rd": 6, "4th": 4, "5th": 0 })
+      expect(@cart.calculate).to eq(1340)  # 800 * 0.85 + 300 * 0.9 + 200 * 0.95 + 200 = 
+    end
+
+    it '第一集買 2 本、第二集買 3 本、第三集買 6 本、第四集買 7 本' do
+      @cart.add({ "1st": 2, "2nd": 3, "3rd": 6, "4th": 7, "5th": 0 })
+      expect(@cart.calculate).to eq(1620)  # 800 * 0.85 + 300 * 0.9 + 600 * 0.95 + 100 = 
+    end
+
+  end
+
 end

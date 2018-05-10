@@ -13,16 +13,16 @@ class Cart
     return @order_items.first * PRICE if @order_items.size == 1  
 
     total = 0
-    loop do
+    discounts = [0.95, 0.9, 0.85]
 
-      case @order_items.size
-      when 1  # 1 vol -> no discount
+    loop do
+      num_of_vol = @order_items.size
+
+      if num_of_vol == 1
         total += @order_items.first * PRICE
         break
-      when 2  # 2 different books -> 5% off
-        total += 2 * PRICE * 0.95
-      when 3  # 3 different books -> 10% off
-        total += 3 * PRICE * 0.9
+      else
+        total += num_of_vol * PRICE * discounts[num_of_vol - 2]
       end
 
       @order_items = @order_items.map { |quantity| quantity - 1 }

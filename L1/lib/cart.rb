@@ -7,17 +7,31 @@ class Cart
   end
 
   def calculate
-    total = 0
 
     @order_items.delete_if { |quantity| quantity == 0 }
     
     return @order_items.first * PRICE if @order_items.size == 1  
 
-    if @order_items[0] > @order_items[1]
-      return (@order_items[1] * 2 * 0.95 + (@order_items[0] - @order_items[1])) * PRICE
-    else
-      return (@order_items[0] * 2 * 0.95 + (@order_items[1] - @order_items[0])) * PRICE
+    total = 0
+    loop do
+
+      case @order_items.size
+      when 1  # 1 vol -> no discount
+        total += @order_items.first * PRICE
+        break
+      when 2  # 2 different books -> 5% off
+        total += 2 * PRICE * 0.95
+      when 3  # 3 different books -> 10% off
+        total += 3 * PRICE * 0.9
+      end
+
+      @order_items = @order_items.map { |quantity| quantity - 1 }
+      @order_items.delete_if { |quantity| quantity == 0 }
+
+      break if @order_items.empty?
     end
+
+    total
   end
 
 end
